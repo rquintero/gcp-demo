@@ -1,2 +1,84 @@
-# gcp-demo
-GCP data driven system demo
+# GCP Hackathon Project
+
+This project contains the complete setup for a Hackathon project hosted on Google Cloud Platform.
+It includes Infrastructure as Code (Terraform), a Spring Boot Backend, a NextJS Frontend, and Python Tools.
+
+## Structure
+
+- `infra/`: Terraform configuration for VPC, Cloud SQL, Cloud Run, GCS, and Vertex AI.
+- `backend/`: Spring Boot application (Java 17).
+- `frontend/`: NextJS application (Node 18).
+- `python-tools/`: FastAPI application (Python 3.11).
+
+## Prerequisites
+
+- Google Cloud SDK (`gcloud`) installed and authenticated.
+- Terraform >= 1.0.
+- Docker (for building images locally).
+
+## Getting Started
+
+### 1. Infrastructure Setup
+
+Navigate to the `infra` directory:
+
+```bash
+cd infra
+terraform init
+terraform plan
+terraform apply
+```
+
+This will create:
+- A VPC Network with Serverless connector.
+- Cloud SQL Postgres instance.
+- Service Accounts for each service.
+- Cloud Run services (placeholders).
+
+### 2. Build and Deploy Services
+
+You will need to build the Docker images and push them to Google Artifact Registry (GAR) or Container Registry (GCR).
+
+**Backend:**
+```bash
+cd backend
+docker build -t gcr.io/YOUR_PROJECT/backend:latest .
+docker push gcr.io/YOUR_PROJECT/backend:latest
+```
+
+**Frontend:**
+```bash
+cd frontend
+docker build -t gcr.io/YOUR_PROJECT/frontend:latest .
+docker push gcr.io/YOUR_PROJECT/frontend:latest
+```
+
+**Python Tools:**
+```bash
+cd python-tools
+docker build -t gcr.io/YOUR_PROJECT/pytools:latest .
+docker push gcr.io/YOUR_PROJECT/pytools:latest
+```
+
+### 3. Update Cloud Run Services
+
+After pushing the images, update the Cloud Run services created by Terraform to use your new images:
+
+```bash
+gcloud run deploy backend-service --image gcr.io/YOUR_PROJECT/backend:latest --region us-central1
+gcloud run deploy frontend-service --image gcr.io/YOUR_PROJECT/frontend:latest --region us-central1
+gcloud run deploy pytools-service --image gcr.io/YOUR_PROJECT/pytools:latest --region us-central1
+```
+
+## Security
+
+Service-to-service communication is secured via IAM.
+- Frontend SA -> Invokes Backend.
+- Backend SA -> Invokes Python Tools.
+- Backend/Python SAs -> Access Cloud SQL & Vertex AI.
+
+## Development
+
+- **Backend**: `mvn spring-boot:run`
+- **Frontend**: `npm run dev`
+- **Python**: `uvicorn main:app --reload`
