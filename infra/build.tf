@@ -35,12 +35,13 @@ resource "google_artifact_registry_repository_iam_member" "build_ar_writer" {
 resource "google_cloudbuild_trigger" "backend_trigger" {
   name        = "backend-trigger"
   description = "Trigger for Backend Service"
+  location = "us-central1"
   
   # Note: This assumes you have connected the repo manually or via other means.
   # If using 2nd Gen Repositories, the config is different.
   # For 1st Gen (mirrored):
   github {
-    owner = "lui91"
+    owner = "rquintero"
     name  = "gcp-demo"
     push {
       branch = "^main$"
@@ -73,9 +74,10 @@ resource "google_cloudbuild_trigger" "backend_trigger" {
 resource "google_cloudbuild_trigger" "frontend_trigger" {
   name        = "frontend-trigger"
   description = "Trigger for Frontend Service"
+  location = "us-central1"
 
   github {
-    owner = "lui91"
+    owner = "rquintero"
     name  = "gcp-demo"
     push {
       branch = "^main$"
@@ -108,9 +110,10 @@ resource "google_cloudbuild_trigger" "frontend_trigger" {
 resource "google_cloudbuild_trigger" "pytools_trigger" {
   name        = "pytools-trigger"
   description = "Trigger for Python Tools Service"
+  location = "us-central1"
 
   github {
-    owner = "lui91"
+    owner = "rquintero"
     name  = "gcp-demo"
     push {
       branch = "^main$"

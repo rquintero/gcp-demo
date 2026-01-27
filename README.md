@@ -14,6 +14,9 @@ It includes Infrastructure as Code (Terraform), a Spring Boot Backend, a NextJS 
 
 - Google Cloud SDK (`gcloud`) installed and authenticated.
 - Terraform >= 1.0.
+    - To install Terraform on macOS, run: 
+      `brew tap hashicorp/tap`
+      `brew install hashicorp/tap/terraform`.
 - Docker (for building images locally).
 
 ## Getting Started
