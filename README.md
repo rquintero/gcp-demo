@@ -47,22 +47,23 @@ You will need to build the Docker images and push them to Google Artifact Regist
 **Backend:**
 ```bash
 cd backend
-docker build -t gcr.io/YOUR_PROJECT/backend:latest .
-docker push gcr.io/YOUR_PROJECT/backend:latest
+docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/backend:latest .
+gcloud auth configure-docker us-central1-docker.pkg.dev  
+docker push us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/backend:latest
 ```
 
 **Frontend:**
 ```bash
 cd frontend
-docker build -t gcr.io/YOUR_PROJECT/frontend:latest .
-docker push gcr.io/YOUR_PROJECT/frontend:latest
+docker build -t gcr.io/burner-ricquint2/frontend:latest .
+docker push gcr.io/burner-ricquint2/frontend:latest
 ```
 
 **Python Tools:**
 ```bash
 cd python-tools
-docker build -t gcr.io/YOUR_PROJECT/pytools:latest .
-docker push gcr.io/YOUR_PROJECT/pytools:latest
+docker build -t gcr.io/burner-ricquint2/pytools:latest .
+docker push gcr.io/burner-ricquint2/pytools:latest
 ```
 
 ### 3. Update Cloud Run Services
@@ -70,9 +71,9 @@ docker push gcr.io/YOUR_PROJECT/pytools:latest
 After pushing the images, update the Cloud Run services created by Terraform to use your new images:
 
 ```bash
-gcloud run deploy backend-service --image gcr.io/YOUR_PROJECT/backend:latest --region us-central1
-gcloud run deploy frontend-service --image gcr.io/YOUR_PROJECT/frontend:latest --region us-central1
-gcloud run deploy pytools-service --image gcr.io/YOUR_PROJECT/pytools:latest --region us-central1
+gcloud run deploy backend-service --image us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/backend:latest --region us-central1
+gcloud run deploy frontend-service --image gcr.io/burner-ricquint2/frontend:latest --region us-central1
+gcloud run deploy pytools-service --image gcr.io/burner-ricquint2/pytools:latest --region us-central1
 ```
 
 ## Security
