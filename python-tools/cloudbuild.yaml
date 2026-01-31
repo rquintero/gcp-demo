@@ -23,7 +23,6 @@ steps:
           --region=us-central1 \
           --platform=managed \
           --allow-unauthenticated \
-          --service-account="${RUN_SA}" \
           --set-secrets="CLOUD_SQL_USER=projects/822664543147/secrets/cloud-sql-user:latest,CLOUD_SQL_PASSWORD=projects/822664543147/secrets/cloud-sql-password:latest" \
           --add-cloudsql-instances="${INSTANCE_CONN_NAME}" \
           --set-env-vars="CLOUD_SQL_CONNECTION_NAME=${INSTANCE_CONN_NAME}"
