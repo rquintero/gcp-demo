@@ -19,7 +19,10 @@ steps:
           --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/backend:$COMMIT_SHA \
           --region=us-central1 \
           --platform=managed \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --set-secrets="CLOUD_SQL_USER=projects/822664543147/secrets/cloud-sql-user:latest,CLOUD_SQL_PASSWORD=projects/822664543147/secrets/cloud-sql-password:latest" \
+          --add-cloudsql-instances=""burner-ricquint2:us-central1:hackathon-postgres-2a03b6f6"" \
+          --set-env-vars="CLOUD_SQL_CONNECTION_NAME="burner-ricquint2:us-central1:hackathon-postgres-2a03b6f6""
 
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-cloudbuild@burner-ricquint2.iam.gserviceaccount.com'
 
