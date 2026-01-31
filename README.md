@@ -55,15 +55,15 @@ docker push us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/backend:l
 **Frontend:**
 ```bash
 cd frontend
-docker build -t gcr.io/burner-ricquint2/frontend:latest .
-docker push gcr.io/burner-ricquint2/frontend:latest
+docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/frontend:latest .
+docker push us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/frontend:latest
 ```
 
 **Python Tools:**
 ```bash
 cd python-tools
-docker build -t gcr.io/burner-ricquint2/pytools:latest .
-docker push gcr.io/burner-ricquint2/pytools:latest
+docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/pytools:latest .
+docker push us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/pytools:latest
 ```
 
 ### 3. Update Cloud Run Services
@@ -72,8 +72,8 @@ After pushing the images, update the Cloud Run services created by Terraform to 
 
 ```bash
 gcloud run deploy backend-service --image us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/backend:latest --region us-central1
-gcloud run deploy frontend-service --image gcr.io/burner-ricquint2/frontend:latest --region us-central1
-gcloud run deploy pytools-service --image gcr.io/burner-ricquint2/pytools:latest --region us-central1
+gcloud run deploy frontend-service --image us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/frontend:latest --region us-central1
+gcloud run deploy pytools-service --image us-central1-docker.pkg.dev/burner-ricquint2/hackathon-repo/pytools:latest --region us-central1
 ```
 
 ## Security
