@@ -8,7 +8,7 @@ steps:
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/github.com/rquintero/gcp-demo:$COMMIT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/github.com/rquintero/gcp-demo:$COMMIT_SHA']
 
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-cloudbuild@burner-ricquint2.iam.gserviceaccount.com'
 
