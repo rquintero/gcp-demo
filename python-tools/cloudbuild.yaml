@@ -16,7 +16,7 @@ steps:
       - '-c'
       - |
         gcloud run deploy python-cloud-sql-demo \
-          --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/python-cloud-sql-demo:$COMMIT_SHA \
+          --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/pytools:$COMMIT_SHA \
           --region=us-central1 \
           --platform=managed \
           --allow-unauthenticated \
