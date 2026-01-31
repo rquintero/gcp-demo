@@ -2,13 +2,24 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/github.com/rquintero/gcp-demo:$COMMIT_SHA',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/frontend:$COMMIT_SHA',
       '-f', 'frontend/Dockerfile',
       './frontend'
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/github.com/rquintero/gcp-demo:$COMMIT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/frontend:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run deploy frontend-service\
+          --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/frontend:$COMMIT_SHA \
+          --region=us-central1 \
+          --platform=managed \
+          --allow-unauthenticated
 
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-cloudbuild@burner-ricquint2.iam.gserviceaccount.com'
 
