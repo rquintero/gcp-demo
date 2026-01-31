@@ -10,16 +10,23 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/pytools:$COMMIT_SHA']
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+    - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud run deploy pytools-service\
-          --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/pytools:$COMMIT_SHA \
+        # Replace PROJECT:REGION with your Cloud SQL instance connection name
+        INSTANCE_CONN_NAME="burner-ricquint2:us-central1:hackathon-postgres-2a03b6f6"
+
+        gcloud run deploy python-cloud-sql-demo \
+          --image=us-central1-docker.pkg.dev/$PROJECT_ID/hackathon-repo/python-cloud-sql-demo:$COMMIT_SHA \
           --region=us-central1 \
           --platform=managed \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --service-account="${RUN_SA}" \
+          --set-secrets="CLOUD_SQL_USER=projects/822664543147/secrets/cloud-sql-user:latest,CLOUD_SQL_PASSWORD=projects/822664543147/secrets/cloud-sql-password:latest" \
+          --add-cloudsql-instances="${INSTANCE_CONN_NAME}" \
+          --set-env-vars="CLOUD_SQL_CONNECTION_NAME=${INSTANCE_CONN_NAME}"
 
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-cloudbuild@burner-ricquint2.iam.gserviceaccount.com'
 
