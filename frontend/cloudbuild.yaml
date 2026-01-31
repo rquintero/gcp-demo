@@ -1,0 +1,19 @@
+steps:
+  # Build the container image using the Dockerfile in the /frontend directory
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '-t', 'gcr.io/$PROJECT_ID/github.com/rquintero/gcp-demo:$COMMIT_SHA', 
+      '-f', 'frontend/Dockerfile',
+      './frontend'
+    ]
+
+  # Push the image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/github.com/rquintero/gcp-demo:$COMMIT_SHA']
+
+options:
+  # This line fixes your specific error
+  logging: CLOUD_LOGGING_ONLY
+  # Replace with your actual service account email
+  serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/YOUR_SERVICE_ACCOUNT@$PROJECT_ID.iam.gserviceaccount.com'
