@@ -21,7 +21,7 @@ steps:
           --platform=managed \
           --allow-unauthenticated
 
-serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/ricquint2@publicisgroupe.net'
+serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/sa-cloudbuild@burner-ricquint2.iam.gserviceaccount.com'
 
 options:
   logging: CLOUD_LOGGING_ONLY
